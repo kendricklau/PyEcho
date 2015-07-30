@@ -74,6 +74,32 @@ class parseTask(object):
 	elif key == 'w':
 	    command = sendGPIO([9])
             command.trueGPIO()
+    elif key == 'rain':
+        while(True):
+            command = sendGPIO([17])
+            command.trueGPIO()
+            time.sleep(.05)
+            command = sendGPIO([18])
+            command.trueGPIO()
+            time.sleep(.05)
+            command = sendGPIO([25])
+            command.trueGPIO()
+            time.sleep(.05)
+            command = sendGPIO([22])
+            command.trueGPIO()
+            time.sleep(.05)
+            command = sendGPIO([23])
+            command.trueGPIO()
+            time.sleep(.05)
+            command = sendGPIO([24])
+            command.trueGPIO()
+            time.sleep(.05)
+            command = sendGPIO([10])
+            command.trueGPIO()
+            time.sleep(.05)
+            command = sendGPIO([9])
+            command.trueGPIO()
+            time.sleep(.05)
 
 
 def main():
