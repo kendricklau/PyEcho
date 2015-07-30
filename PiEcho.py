@@ -10,8 +10,8 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
 GPIO.setup(17, GPIO.OUT)
-GPIO.setup(27, GPIO.OUT)
 GPIO.setup(18, GPIO.OUT)
+GPIO.setup(27, GPIO.OUT)
 GPIO.setup(22, GPIO.OUT)
 GPIO.setup(23, GPIO.OUT)
 GPIO.setup(24, GPIO.OUT)
@@ -23,17 +23,18 @@ GPIO.setup(8, GPIO.OUT)
 GPIO.setup(7, GPIO.OUT)
 
 class sendGPIO(object):
-    def __init__(self, gpioList):
+    def __init__(self, gpiolist = []):
         self.gpiolist = gpiolist
 
     def trueGPIO(self):
-        allgpio = [17,27,18,22,23,24,10,9,25,11,8,7]
+        allgpio = [17,18,27,22,23,24,10,9,25,11,8,7]
 
         for n in allgpio:
-            if self.gpiolist.index(n) != -1:
-                GPIO.output(n, GPIO.HIGH)
-            else:
-                GPIO.output(n, GPIO.LOW)
+            try:
+	        if self.gpiolist.index(n) != -1:
+		    GPIO.output(n, GPIO.HIGH)
+	    except ValueError:
+		GPIO.output(n, GPIO.LOW)
 
 class parseTask(object):
     def __init__ (self, string):
@@ -43,7 +44,7 @@ class parseTask(object):
         if isinstance(self.string, basestring):
             pass
 
-        colors = {'r': 'red', 'o': 'orange', 'y': 'yellow', 'g': 'green', 'b': 'blue', 'p': 'purple', 'pi': 'pink', 'w': 'white'}
+        colors = {'rain': 'rainbow', 'r': 'red', 'o': 'orange', 'y': 'yellow', 'g': 'green', 'b': 'blue', 'p': 'purple', 'pi': 'pink', 'w': 'white'}
 
         for key, value in colors.iteritems():
             if self.string.find(value) != -1:
@@ -53,27 +54,26 @@ class parseTask(object):
             command = sendGPIO([17])
             command.trueGPIO()
        	elif key == 'o':
-	        command = sendGPIO([27])
+	    command = sendGPIO([18])
             command.trueGPIO()
         elif key == 'y': 
-	        command = sendGPIO([18])
+	    command = sendGPIO([25])
             command.trueGPIO()
-	    elif key == 'g':
-	        command = sendGPIO([22])
+	elif key == 'g':
+	    command = sendGPIO([22])
             command.trueGPIO()
-	    elif key == 'b':
-	        command = sendGPIO([23])
+	elif key == 'b':
+            command = sendGPIO([23])
             command.trueGPIO()
-	    elif key == 'p':
-	        command = sendGPIO([24])
+	elif key == 'p':
+	    command = sendGPIO([24])
             command.trueGPIO()
-	    elif key == 'pi':
-	        command = sendGPIO([10])
+	elif key == 'pi':
+            command = sendGPIO([10])
             command.trueGPIO()
-	    elif key == 'w':
-	        command = sendGPIO([9])
+	elif key == 'w':
+	    command = sendGPIO([9])
             command.trueGPIO()
-
 
 
 def main():
