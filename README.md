@@ -45,3 +45,15 @@ URLs of API endpoints to make authenticated requests against (GET).
 * urllib
 * cookielib
 
+#### Installation Notes for RPi
+On fresh Raspbian:
+sudo apt-get update
+sudo apt-get install python-dev
+wget https://bootstrap.pypa.io/ez_setup.py -O - | sudo python
+wget https://bootstrap.pypa.io/get-pip.py -O - | sudo python
+sudo pip install requests
+sudo pip install BeautifulSoup4
+sudo python PiEcho.py
+
+
+

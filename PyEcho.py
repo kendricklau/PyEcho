@@ -24,7 +24,7 @@ class PyEcho:
 
       # Get the login page and retrieve our form action.
       loginPage = self.get("")
-      loginSoup = BeautifulSoup(loginPage.text)
+      loginSoup = BeautifulSoup(loginPage.text, "html.parser")
       
       form = loginSoup.find('form')
       action = form.get('action')
