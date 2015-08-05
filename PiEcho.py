@@ -75,7 +75,7 @@ class newTask(object):
         elif key == 'off':
             self.offLights()
 
-    def updateBright(color, step):
+    def updateBright(self, color, step):
         color += step
 
         if color > 255:
@@ -85,11 +85,11 @@ class newTask(object):
 
         return color
 
-    def setLights(pin, brightness):
+    def setLights(self, pin, brightness):
         realBrightness = int(int(brightness) * (float(bright) / 255.0))
         pi.set_PWM_dutycycle(pin, realBrightness)
 
-    def offLights():
+    def offLights(self):
         setLights(RED_LED, 0)
         setLights(GREEN_LED, 0)
         setLights(BLUE_LED, 0)
