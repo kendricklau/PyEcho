@@ -45,36 +45,36 @@ class newTask(object):
                 break
 
         if key == 'r':
-            setLights(RED_LED, 255)
-            setLights(GREEN_LED, 0)
-            setLights(BLUE_LED, 0)
+            self.setLights(RED_LED, 255)
+            self.setLights(GREEN_LED, 0)
+            self.setLights(BLUE_LED, 0)
         elif key == 'o':
-            setLights(RED_LED, 255)
-            setLights(GREEN_LED, 153)
-            setLights(BLUE_LED, 0)
+            self.setLights(RED_LED, 255)
+            self.setLights(GREEN_LED, 153)
+            self.setLights(BLUE_LED, 0)
         elif key == 'y':
-            setLights(RED_LED, 255)
-            setLights(GREEN_LED, 204)
-            setLights(BLUE_LED, 0)
+            self.setLights(RED_LED, 255)
+            self.setLights(GREEN_LED, 204)
+            self.setLights(BLUE_LED, 0)
         elif key == 'g':
-            setLights(RED_LED, 0)
-            setLights(GREEN_LED, 255)
-            setLights(BLUE_LED, 0)
+            self.setLights(RED_LED, 0)
+            self.setLights(GREEN_LED, 255)
+            self.setLights(BLUE_LED, 0)
         elif key == 'b':
-            setLights(RED_LED, 0)
-            setLights(GREEN_LED, 0)
-            setLights(BLUE_LED, 255)
+            self.setLights(RED_LED, 0)
+            self.setLights(GREEN_LED, 0)
+            self.setLights(BLUE_LED, 255)
         elif key == 'p':
-            setLights(RED_LED, 255)
-            setLights(GREEN_LED, 0)
-            setLights(BLUE_LED, 255)
+            self.setLights(RED_LED, 255)
+            self.setLights(GREEN_LED, 0)
+            self.setLights(BLUE_LED, 255)
         elif key == 'w':
-            setLights(RED_LED, 255)
-            setLights(GREEN_LED, 255)
-            setLights(BLUE_LED, 255)
+            self.setLights(RED_LED, 255)
+            self.setLights(GREEN_LED, 255)
+            self.setLights(BLUE_LED, 255)
         elif key == 'off':
-            offLights()
-            
+            self.offLights()
+
     def updateBright(color, step):
         color += step
 
