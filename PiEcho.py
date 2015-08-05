@@ -3,24 +3,18 @@
 # Kendrick Lau / lau21@purdue.edu / July 28, 2015
 
 import PyEcho, getpass, time
+import pigpio
 
-import RPi.GPIO as GPIO
 
-GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(False)
+RED_LED = 22
+GREEN_LED = 23
+BLUE_LED = 24
 
-GPIO.setup(17, GPIO.OUT)
-GPIO.setup(18, GPIO.OUT)
-GPIO.setup(27, GPIO.OUT)
-GPIO.setup(22, GPIO.OUT)
-GPIO.setup(23, GPIO.OUT)
-GPIO.setup(24, GPIO.OUT)
-GPIO.setup(10, GPIO.OUT)
-GPIO.setup(9, GPIO.OUT)
-GPIO.setup(25, GPIO.OUT)
-GPIO.setup(11, GPIO.OUT)
-GPIO.setup(8, GPIO.OUT)
-GPIO.setup(7, GPIO.OUT)
+pi = pigpio.pi()
+pi.set_mode(RED_LED, pigpio.OUTPUT)
+pi.set_mode(GREEN_LED, pigpio.OUTPUT)
+pi.set_mode(BLUE_LED, pigpio.OUTPUT)
+STEPS = 2
 
 class sendGPIO(object):
     def __init__(self, gpiolist = []):
@@ -36,7 +30,7 @@ class sendGPIO(object):
 	    except ValueError:
 		GPIO.output(n, GPIO.LOW)
 
-class parseTask(object):
+class newTask(object):
     def __init__ (self, string):
         self.string = string
 
@@ -44,65 +38,61 @@ class parseTask(object):
         if isinstance(self.string, basestring):
             pass
 
-        colors = {'rain': 'rainbow', 'r': 'red', 'o': 'orange', 'y': 'yellow', 'g': 'green', 'b': 'blue', 'p': 'purple', 'pi': 'pink', 'w': 'white'}
+        colors = {'off': 'off', 'rain': 'rainbow', 'r': 'red', 'o': 'orange', 'y': 'yellow', 'g': 'green', 'b': 'blue', 'p': 'purple', 'w': 'white'}
 
         for key, value in colors.iteritems():
             if self.string.find(value) != -1:
                 break
 
         if key == 'r':
-            command = sendGPIO([17])
-            command.trueGPIO()
-       	elif key == 'o':
-	    command = sendGPIO([18])
-            command.trueGPIO()
-        elif key == 'y': 
-	    command = sendGPIO([25])
-            command.trueGPIO()
-	elif key == 'g':
-	    command = sendGPIO([22])
-            command.trueGPIO()
-	elif key == 'b':
-            command = sendGPIO([23])
-            command.trueGPIO()
-	elif key == 'p':
-	    command = sendGPIO([24])
-            command.trueGPIO()
-	elif key == 'pi':
-            command = sendGPIO([10])
-            command.trueGPIO()
-	elif key == 'w':
-	    command = sendGPIO([9])
-            command.trueGPIO()
-    	elif key == 'rain':
-            while(True):
-                command = sendGPIO([17])
-                command.trueGPIO()
-                time.sleep(.05)
-                command = sendGPIO([18])
-                command.trueGPIO()
-                time.sleep(.05)
-                command = sendGPIO([25])
-                command.trueGPIO()
-                time.sleep(.05)
-                command = sendGPIO([22])
-                command.trueGPIO()
-                time.sleep(.05)
-                command = sendGPIO([23])
-                command.trueGPIO()
-                time.sleep(.05)
-                command = sendGPIO([24])
-                command.trueGPIO()
-                time.sleep(.05)
-                command = sendGPIO([10])
-                command.trueGPIO()
-                time.sleep(.05)
-                command = sendGPIO([9])
-                command.trueGPIO()
-                time.sleep(.05)
-		if echo.tasks() != 0:
-		    break
+            setLights(RED_LED, 255)
+            setLights(GREEN_LED, 0)
+            setLights(BLUE_LED, 0)
+        elif key == 'o':
+            setLights(RED_LED, 255)
+            setLights(GREEN_LED, 153)
+            setLights(BLUE_LED, 0)
+        elif key == 'y':
+            setLights(RED_LED, 255)
+            setLights(GREEN_LED, 204)
+            setLights(BLUE_LED, 0)
+        elif key == 'g':
+            setLights(RED_LED, 0)
+            setLights(GREEN_LED, 255)
+            setLights(BLUE_LED, 0)
+        elif key == 'b':
+            setLights(RED_LED, 0)
+            setLights(GREEN_LED, 0)
+            setLights(BLUE_LED, 255)
+        elif key == 'p':
+            setLights(RED_LED, 255)
+            setLights(GREEN_LED, 0)
+            setLights(BLUE_LED, 255)
+        elif key == 'w':
+            setLights(RED_LED, 255)
+            setLights(GREEN_LED, 255)
+            setLights(BLUE_LED, 255)
+        elif key == 'off':
+            offLights()
+            
+    def updateBright(color, step):
+        color += step
 
+        if color > 255:
+            return 255
+        if color < 0:
+            return 0
+
+        return color
+
+    def setLights(pin, brightness):
+        realBrightness = int(int(brightness) * (float(bright) / 255.0))
+        pi.set_PWM_dutycycle(pin, realBrightness)
+
+    def offLights():
+        setLights(RED_LED, 0)
+        setLights(GREEN_LED, 0)
+        setLights(BLUE_LED, 0)
 
 def main():
     email = raw_input("Email: ")
@@ -115,7 +105,7 @@ def main():
             for task in tasks:
                 command = task['text']
                 print("Task: " + command)
-                obj = parseTask(command)
+                obj = newTask(command)
                 obj.execute()
                 res = echo.deleteTask(task)
                 if res.status_code == 200:
